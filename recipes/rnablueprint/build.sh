@@ -6,11 +6,17 @@ libs=
 if [[ ${target_platform} =~ linux.* ]] ; then
     libs=-lrt
 fi
+py_interface=
+if [[ ${PY3K} == 1 ]] ; then
+    py_interface='--disable-python2'
+else
+    py_interface='--disable-python'
+fi
+
 autoreconf -fi
 ./configure \
   --prefix=${PREFIX} \
-  --disable-perl \
-  --disable-doxygen-doc \
+  $py_interface \
   LIBS="${libs}"
 
 make -j
